@@ -1,26 +1,30 @@
 package com.LondonApiTest.model;
 
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(value="person")
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @Data
 public class Person {
-    @Id
+    @JsonProperty(value="id")
     private String id;
-    private String first_name;
-    private String last_name;
+    @JsonProperty(value="first_name")
+    private String firstNane;
+    @JsonProperty(value="last-name")
+    private String lastName;
+    @JsonProperty(value="email")
     private String email;
-    private String ip_address;
+    @JsonProperty(value="ip-address")
+    private String ipAddress;
+    @JsonProperty(value="latitude")
     private double latitude;
+    @JsonProperty(value="longitude")
     private double longitude;
 
 

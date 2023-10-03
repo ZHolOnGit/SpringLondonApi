@@ -1,11 +1,12 @@
 package com.LondonApiTest.controller;
 
-import com.LondonApiTest.dto.PersonRequest;
-import com.LondonApiTest.dto.PersonResponse;
+import com.LondonApiTest.model.Person;
 import com.LondonApiTest.service.LondonService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.ArrayList;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -23,39 +24,39 @@ import java.util.List;
 @RequestMapping("api/London")
 @RequiredArgsConstructor
 public class LondonController {
-    private final String baseApi = "https://london-api.onrender.com/";
-    private final WebClient.Builder webClientBuilder;
-    ObjectMapper objectMapper = new ObjectMapper();
-    private final LondonService londonService;
+    //private final String baseApi = "https://london-api.onrender.com/";
+    //private final WebClient.Builder webClientBuilder;
+    //ObjectMapper objectMapper = new ObjectMapper();
+    //private final LondonService londonService;
     @GetMapping
-    @ResponseStatus(HttpStatus.OK)
-    public List<PersonResponse> getAllLondonPeople(){
+    public ResponseEntity<List<Person>> getAllLondonPeople(){
 
-        Mono<List<PersonRequest>> cityList = mapJsonToPersonRequest(getCity("London"));
+        List<Person> personList = new ArrayList<>();
 
-        Mono<List<PersonRequest>> allPeopleList = mapJsonToPersonRequest(getAllUsers());
+      //  List<Person> cityList = mapJsonToPerson(getCity("London"));
 
-        Mono<List<PersonResponse>> londonerList = londonService.findLondonders(cityList,allPeopleList);
+      //  List<Person> allPeopleList = mapJsonToPerson(getAllUsers());
 
-        return londonerList.block();
+      //  personList = londonService.findLondonders(cityList,allPeopleList);
+
+        return new ResponseEntity<>(personList, HttpStatus.OK);
     }
 
-    //Maps all the JSON that was sent by the API into PersonRequest objects
-    //Using the PersonRequest objects to avoid exposing service to api directly
-    public Mono<List<PersonRequest>> mapJsonToPersonRequest(Mono<String> mono){
-        Flux<PersonRequest> personFlux = mono.flatMapMany( json -> {
+/*    public List<Person> mapJsonToPerson(Mono<String> mono){
+        Flux<Person> personFlux = mono.flatMapMany( json -> {
             try {
-                return Flux.fromArray(objectMapper.readValue(json,PersonRequest[].class));
+                return Flux.fromArray(objectMapper.readValue(json,Person[].class));
             } catch (Exception e) {
                 return Flux.error(e);
             }
         });
-        return personFlux.collectList();
+        return personFlux.collectList().block();
 
-    }
+    }*/
 
+    //Move these into the service layer, this is a backend function
 
-    //These functions are what call the London Api itself, they return the JSON data stored in a Mono<String>
+/*    //These functions are what call the London Api itself, they return the JSON data stored in a Mono<String>
     public Mono<String> getAllUsers(){
         return webClientBuilder.build()
                 .get()
@@ -70,6 +71,6 @@ public class LondonController {
                 .uri(baseApi + "city/" + city + "/users" )
                 .retrieve()
                 .bodyToMono(String.class);
-    }
+    }*/
 
 }
