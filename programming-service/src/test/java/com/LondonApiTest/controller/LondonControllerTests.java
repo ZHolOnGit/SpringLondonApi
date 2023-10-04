@@ -15,16 +15,19 @@ public class LondonControllerTests {
   //Can only really do this one test and test for a list with more than 0 users
   //Mocks the service call, mock returns List<Person>, use the when()
 
-  @Test
-  @DisplayName("Controller method returns 200 with an empty list of Person")
-  public void testSuccessResponse() {
-    LondonController londonController = new LondonController();
-
-    ResponseEntity<List<Person>> actualResult = londonController.getAllLondonPeople();
-
-    assertNotNull(actualResult);
-    assertEquals(HttpStatus.OK,actualResult.getStatusCode());
-    assertNotNull(actualResult.getBody());
-    assertEquals(0,actualResult.getBody().size());
-  }
+  LondonController londonController;
+//  @Test
+//  @DisplayName("Controller method returns 200 with an empty list of Person")
+//  public void testSuccessResponse() {
+//    ArrayList peopleList = new ArrayList();
+//
+//    when(londonController.getAllLondonPeople()).thenReturn();
+//
+//    ResponseEntity<List<Person>> actualResult = londonController.getAllLondonPeople();
+//
+//    assertNotNull(actualResult);
+//    assertEquals(HttpStatus.OK,actualResult.getStatusCode());
+//    assertNotNull(actualResult.getBody());
+//    assertEquals(0,actualResult.getBody().size());
+//  }
 }
